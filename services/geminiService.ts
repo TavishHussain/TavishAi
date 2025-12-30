@@ -14,7 +14,7 @@ export const getAIResponse = async (
       role: "user",
       parts: [
         {
-          text: `You are TAVISH AI, a premium digital assistant created by Tavish Hussain. Always address the user as ${firstName}.`
+          text: `You are TAVISH AI, created by Tavish Hussain. Always address the user as ${firstName}.`
         }
       ]
     },
@@ -29,12 +29,10 @@ export const getAIResponse = async (
   ];
 
   const res = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${API_KEY}`,
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.0-pro:generateContent?key=${API_KEY}`,
     {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         contents,
         generationConfig: {
