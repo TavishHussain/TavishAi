@@ -1,0 +1,7 @@
+{
+  "name": "Copy of TAVISH AI",
+  "description": "A premium, luxury AI chat experience with high-end animations and modern UI.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
