@@ -5,14 +5,13 @@ const API_KEY = import.meta.env.VITE_API_KEY;
 export const getAIResponse = async (
   prompt: string,
   history: Message[],
-  userName: string,
-  image?: string
+  userName: string
 ) => {
   const firstName = userName.split(" ")[0] || "User";
 
-  const contents: any[] = [
+  const contents = [
     {
-      role: "user",
+      role: "system",
       parts: [
         {
           text: `You are TAVISH AI, a premium digital assistant created by Tavish Hussain. Always address the user as ${firstName}.`
@@ -30,10 +29,12 @@ export const getAIResponse = async (
   ];
 
   const res = await fetch(
-    `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${API_KEY}`,
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${API_KEY}`,
     {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json"
+      },
       body: JSON.stringify({
         contents,
         generationConfig: {
@@ -46,7 +47,13 @@ export const getAIResponse = async (
 
   const data = await res.json();
 
-  console.log("Gemini raw response:", data);
+  // 🔴 HARD DEBUG (VERY IMPORTANT)
+  console.log("Gemini FULL response:", data);
+
+  if (data.error) {
+    console.error("Gemini API ERROR:", data.error);
+    return `API Error: ${data.error.message}`;
+  }
 
   return (
     data?.candidates?.[0]?.content?.parts?.[0]?.text ||
