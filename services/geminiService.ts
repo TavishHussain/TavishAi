@@ -11,10 +11,10 @@ export const getAIResponse = async (
 
   const contents = [
     {
-      role: "system",
+      role: "user",
       parts: [
         {
-          text: `You are TAVISH AI, a premium digital assistant created by Tavish Hussain. Always address the user as ${firstName}.`
+          text: `You are TAVISH AI, created by Tavish Hussain. Always address the user as ${firstName}.`
         }
       ]
     },
@@ -29,7 +29,7 @@ export const getAIResponse = async (
   ];
 
   const res = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${API_KEY}`,
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`,
     {
       method: "POST",
       headers: {
@@ -47,11 +47,9 @@ export const getAIResponse = async (
 
   const data = await res.json();
 
-  // 🔴 HARD DEBUG (VERY IMPORTANT)
-  console.log("Gemini FULL response:", data);
+  console.log("Gemini response:", data);
 
   if (data.error) {
-    console.error("Gemini API ERROR:", data.error);
     return `API Error: ${data.error.message}`;
   }
 
